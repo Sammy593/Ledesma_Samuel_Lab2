@@ -1,23 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/main.css') }}"
-    />
-  
-  </head>
-  <body>
-    <form action="" method="post">
-        <label for="nombre">Nombre: </label>
-      <input type="text" name="nombre" id="nombre_id" /><br />
-      <input type="submit" value="enviar"/>
-    </form>
 
-    <a href="">borrar</a>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+  <style>
+    form {
+      margin: 70px;
+    }
+
+    .card_tarea {
+      margin: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="enviar" method="POST">
+    <label for="nombre">Nombre: </label>
+    <input type="text" name="nombre" id="nombre_id" /><br />
+    <input type="submit" value="enviar" />
+  </form>
+
+  <div id="tarjetas">
+    <div class="card_tarea">
+      <span>Tarea 1</span>
+    </div>
+  </div>
+
+  <form action="{{url_for('borrar')}}" method="post" class="card-body">
+
+    <button type="submit" class="btn btn-danger mb-2">Borrar tareas</button>
+
+</form>
+
+</body>
+
+<script>
+  var nombres = document.getElementById("tarjetas"), test = {{ datosF | tojson }};
+
+  for(var i = 0; i < test.length; i++){
+    var etiqueta = document.createElement('div');
+    var txtContenedor = document.createElement('span');
+    var txt = document.createTextNode(test[i].dato);
+
+    txtContenedor.appendChild(txt);
+    etiqueta.appendChild(txtContenedor);
+    nombres.appendChild(etiqueta)
+  }
+</script>
 </html>

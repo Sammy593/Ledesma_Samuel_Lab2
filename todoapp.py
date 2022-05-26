@@ -1,35 +1,36 @@
 #importar la libreria flask
-import time
-from flask import Flask, request, render_template
+#import time
+from flask import Flask, redirect, request, render_template, url_for
 
 app = Flask(__name__, template_folder='templates')
 
-@app.route('/', methods =["GET", "POST"])
+datosF = []
+
+
+@app.route('/')
 #contenedor para llamar a index.html en la ruta principal
-#def principal():
- #   return render_template('/index.html')
+def index():
+    return render_template('/index.html', datosF=datosF)
 
-def principal():
-   """ if request.method == "POST":
-        #Recibiendo valores del formulario
-        nombre = request.form.get("nombre")
-        
-        #cambiamos a la ruta enviar
-        enviar()
-       # time.sleep(5)
-        #Retornamos respuesta a la ruta index
-        return "Tu nombre es: "+nombre"""
-   return render_template('/index.html')
-
-@app.route('/enviar')
+@app.route('/enviar', methods =["GET", "POST"])
 #contenedor para llamar a enviar.html
 def enviar():
-    return render_template('/enviar.html')
+    if request.method == 'POST':
+        dato = request.form['nombre']
+        datosF.append({'dato':dato})
+        return redirect(url_for('index'))
 
-@app.route('/borrar')
+#Controlador para borrar
+@app.route('/borrar', methods=['POST'])
 #contenedor para llamar a borrar.html
 def borrar():
-    return render_template('/borrar.html')
+      if request.method == 'POST':
+        if datosF == []:
+            return redirect(url_for('index'))
+        else:
+            datosF.clear()
+            return redirect(url_for('index'))
+
 
 
 #ejecutar
