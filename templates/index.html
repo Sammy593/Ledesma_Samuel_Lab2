@@ -21,14 +21,24 @@
 
 <body>
   <form action="enviar" method="POST">
-    <label for="nombre">Nombre: </label>
-    <input type="text" name="nombre" id="nombre_id" /><br />
+    <label for="tituloU">Titulo: </label>
+    <input type="text" name="titulo" id="titulo_id" /><br />
+
+    <label for="correoU">Correo: </label>
+    <input type="email" name="correo" id="correo_id" /><br />
+
+    <label for="prioridadU">Prioridad: </label>
+    <input type="text" name="prioridad" id="prioridad_id" /><br />
+
     <input type="submit" value="enviar" />
   </form>
 
-  <div id="tarjetas">
+  <div id="lista_tareas">
     <div class="card_tarea">
-      <span>Tarea 1</span>
+      <span id="idS">1</span>
+      <span id="tituloS"> Samuel</span>
+      <span id="correoS"> Ledesma</span>
+      <span id="prioridadS"> Alta</span>
     </div>
   </div>
 
@@ -39,18 +49,45 @@
 </form>
 
 </body>
-
+<!--
 <script>
-  var nombres = document.getElementById("tarjetas"), test = {{ datosF | tojson }};
+  var container = document.getElementById("lista_tareas"), test = {{ datosF | tojson }};
 
   for(var i = 0; i < test.length; i++){
-    var etiqueta = document.createElement('div');
-    var txtContenedor = document.createElement('span');
-    var txt = document.createTextNode(test[i].dato);
+   //Creamos los el contenedor de la tarea
+    var card = document.createElement('div');
+    etiqueta.setAttribute("class", "card_tarea");
+   //Creamos los elementos de la tarea
+    var tareaID = document.createElement('span');
+    codigoID.setAttribute("id", "idS");
 
-    txtContenedor.appendChild(txt);
-    etiqueta.appendChild(txtContenedor);
-    nombres.appendChild(etiqueta)
+    var tareaTitulo = document.createElement('span');
+    txtContenedor.setAttribute("id", "tituloS");
+
+    var tareaCorreo = document.createElement('span');
+    codigoID.setAttribute("id", "correoS");
+
+    var tareaPrioridad = document.createElement('span');
+    txtContenedor.setAttribute("id", "prioridadS");
+    
+    //Creamos las variable de los datos de cada tarea
+    var txtID = document.createTextNode(test[i].id);
+    var txtTitulo = document.createTextNode(test[i].titulo);
+    var txtCorreo = document.createTextNode(test[i].correo);
+    var txtPrioridad = document.createTextNode(test[i].prioridad);
+
+    tareaID.appendChild(txtID);
+    tareaTitulo.appendChild(txtTitulo);
+    tareaCorreo.appendChild(txtCorreo);
+    tareaPrioridad.appendChild(txtPrioridad);
+
+    card.appendChild(tareaID);
+    card.appendChild(tareaTitulo);
+    card.appendChild(tareaCorreo);
+    card.appendChild(tareaPrioridad);
+
+    container.appendChild(card);
   }
+  -->
 </script>
 </html>
