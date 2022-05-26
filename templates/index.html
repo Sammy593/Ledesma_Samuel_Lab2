@@ -8,86 +8,131 @@
   <title>Document</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 
+  <!--Bootstrap-->
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
   <style>
+    body{
+      display: flex;
+      flex-direction: column;
+      background-color: aliceblue;
+    }
+    h1{
+      margin-top: 30px;
+      text-align: center;
+    }
     form {
-      margin: 70px;
+      margin: 80px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    main{
+      padding: 5%;
     }
 
-    .card_tarea {
-      margin: 50px;
+    #lista_tareas{
+      display: flex;
+      flex-direction: row;
+      columns: 3;
+      flex-wrap: wrap;
+      place-content: center;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      margin: 10px;
+      text-align: center;
+    }
+
+    #tituloS{
+      font-weight: 900;
     }
   </style>
 </head>
 
 <body>
-  <form action="enviar" method="POST">
+
+  <h1>Gestion de tareas</h1>
+  <form action="enviar" method="POST" class="form-group">
     <label for="tituloU">Titulo: </label>
-    <input type="text" name="titulo" id="titulo_id" /><br />
+    <input type="text" class="form-control" name="titulo" id="titulo_id" /><br />
 
     <label for="correoU">Correo: </label>
-    <input type="email" name="correo" id="correo_id" /><br />
+    <input type="email" class="form-control" name="correo" id="correo_id" /><br />
 
     <label for="prioridadU">Prioridad: </label>
-    <input type="text" name="prioridad" id="prioridad_id" /><br />
+    <input type="text" class="form-control" name="prioridad" id="prioridad_id" /><br />
 
-    <input type="submit" value="enviar" />
+    <input type="submit" class="btn btn-primary" value="enviar" />
   </form>
 
+  <form action="{{url_for('borrar')}}" method="post" class="card-body">
+    <button type="submit" class="btn btn-danger mb-2">Borrar tareas</button>
+  </form>
+<main>
   <div id="lista_tareas">
-    <div class="card_tarea">
-      <span id="idS">1</span>
-      <span id="tituloS"> Samuel</span>
-      <span id="correoS"> Ledesma</span>
-      <span id="prioridadS"> Alta</span>
+    <div class="card_tarea card">
+     <!-- <span id="idS">1</span>-->
+      <span class="card-title"id="tituloS"> Samuel</span>
+      <span class="card-text" id="correoS"> Ledesma</span>
+      <span class="card-text" id="prioridadS"> Alta</span>
     </div>
   </div>
-
-  <form action="{{url_for('borrar')}}" method="post" class="card-body">
-
-    <button type="submit" class="btn btn-danger mb-2">Borrar tareas</button>
-
-</form>
+</main>
 
 </body>
-<!--
-<script>
+ <script>
   var container = document.getElementById("lista_tareas"), test = {{ datosF | tojson }};
 
-  for(var i = 0; i < test.length; i++){
-   //Creamos los el contenedor de la tarea
-    var card = document.createElement('div');
-    etiqueta.setAttribute("class", "card_tarea");
-   //Creamos los elementos de la tarea
-    var tareaID = document.createElement('span');
-    codigoID.setAttribute("id", "idS");
+for(var i = 0; i < test.length; i++){
+ //Creamos los el contenedor de la tarea
+  var card = document.createElement('div');
+  card.setAttribute("class", "card");
+ //Creamos los elementos de la tarea
+ // var tareaID = document.createElement('span');
+ // codigoID.setAttribute("id", "idS");
 
-    var tareaTitulo = document.createElement('span');
-    txtContenedor.setAttribute("id", "tituloS");
+  var tareaTitulo = document.createElement('span');
+  tareaTitulo.setAttribute("id", "tituloS");
 
-    var tareaCorreo = document.createElement('span');
-    codigoID.setAttribute("id", "correoS");
+  var tareaCorreo = document.createElement('span');
+  tareaCorreo.setAttribute("id", "correoS");
 
-    var tareaPrioridad = document.createElement('span');
-    txtContenedor.setAttribute("id", "prioridadS");
+  var tareaPrioridad = document.createElement('span');
+  tareaPrioridad.setAttribute("id", "prioridadS");
+
+  
+  //Creamos las variable de los datos de cada tarea
+ // var txtID = document.createTextNode(test[i].id);
+  var txtTitulo = document.createTextNode(test[i].titulo);
+  var txtCorreo = document.createTextNode(test[i].correo);
+  var txtPrioridad = document.createTextNode(test[i].prioridad);
+
+
+ // tareaID.appendChild(txtID);
+  tareaTitulo.appendChild(txtTitulo);
+  tareaCorreo.appendChild(txtCorreo);
+  tareaPrioridad.appendChild(txtPrioridad);
+
+//  card.appendChild(tareaID);
+  card.appendChild(tareaTitulo);
+  card.appendChild(tareaCorreo);
+  card.appendChild(tareaPrioridad);
+
     
-    //Creamos las variable de los datos de cada tarea
-    var txtID = document.createTextNode(test[i].id);
-    var txtTitulo = document.createTextNode(test[i].titulo);
-    var txtCorreo = document.createTextNode(test[i].correo);
-    var txtPrioridad = document.createTextNode(test[i].prioridad);
-
-    tareaID.appendChild(txtID);
-    tareaTitulo.appendChild(txtTitulo);
-    tareaCorreo.appendChild(txtCorreo);
-    tareaPrioridad.appendChild(txtPrioridad);
-
-    card.appendChild(tareaID);
-    card.appendChild(tareaTitulo);
-    card.appendChild(tareaCorreo);
-    card.appendChild(tareaPrioridad);
-
-    container.appendChild(card);
+  if(test[i].prioridad == 'Alta') {
+    card.setAttribute('style', 'background-color: rgb(139, 40, 0); color: white;')
+  }else if(test[i].prioridad == 'Media'){
+    card.setAttribute('style', 'background-color: rgb(228, 255, 130);')
+  }else{
+    card.setAttribute('style', 'background-color: green;')
   }
-  -->
-</script>
+
+  container.appendChild(card);
+}
+ </script>
 </html>

@@ -4,6 +4,7 @@ import pickle
 app = Flask(__name__, template_folder='templates')
 
 datosF = []
+"""
 def buscarArchivo():
     try:
         archivo = pickle.load(open("dict.pickle","rb"))
@@ -11,6 +12,8 @@ def buscarArchivo():
         pickle.dump(datosF, open("dict.pickle","wb"))
         
 buscarArchivo()
+
+
 # ************************************************************
 class Tarea:
     # Constructor de clase
@@ -55,19 +58,13 @@ class ListaTareas:
         pickle.dump(self.datosF, fichero)
         fichero.close()
 # ************************************************************
-
+"""
 @app.route('/')
 #contenedor para llamar a index.html y los datos registrados en la ruta principal
 def index():
-    fichero = open('catalogo.pckl', 'ab+')
-    fichero.seek(0)
-    try:
-        self.peliculas = pickle.load(fichero)
-    except:
-             print("El fichero está vacío")
-
-
-    return render_template('/index.html', datosF=pickle_out)
+    #pickle_in = open("dict.pickle","rb")
+   # dict = pickle.load(pickle_in)
+    return render_template('/index.html', datosF=datosF)
 #------------------------------------------------------
 #                         ENVIAR 
 #------------------------------------------------------
@@ -76,22 +73,24 @@ def index():
 def enviar():
     if request.method == 'POST':
         #id, titulo, correo, prioridad
-        pickle_abierto = open("dict.pickle","rb")
-        pickle_out = pickle.load(pickle_abierto)
-        numID = pickle_out.__len__()
-        pickle_abierto.close()
-
+        
+      ##  fichero = open('dict.pickle', 'rb')
+       ## pickle_load = pickle.load(fichero)
+       
+        ##numID = pickle_load.__len__()
         tituloT = request.form['titulo']
         correoT = request.form['correo']
         prioridadT = request.form['prioridad']
+        #lt = ListaTareas()
+        #lt.agregar(Tarea(numID, tituloT, correoT, prioridadT))
+       # lt.mostrar()
+       # del(lt)
+       ## fichero.close()
 
-        lt = ListaTareas()
-
-        lt.agregar(Tarea(numID, tituloT, correoT, prioridadT))
-        lt.mostrar()
-
-        del(lt)
-
+        datosF.append({'titulo': tituloT,'correo': correoT,'prioridad': prioridadT})
+        #fichero2 = open('dict.pickle', 'wb')
+        ##pickle.dump(datosF, open('dict.pickle', 'wb'))
+       ## fichero.close()
         return redirect(url_for('index'))
 #------------------------------------------------------
 
